@@ -81,12 +81,10 @@
     .susp-btn {
       padding:12px; font-family:'Courier New',monospace; font-size:11px;
       letter-spacing:2px; text-transform:uppercase; cursor:pointer;
-      border:1px solid; background:transparent; transition:all .2s;
+      border:1px solid #00c8ff; color:#00c8ff; background:transparent;
+      transition:all .2s;
     }
-    .susp-btn.sms { border-color:#4a7090; color:#c8d8e8; }
-    .susp-btn.sms:hover { background:rgba(255,255,255,.06); border-color:#8aaac8; }
-    .susp-btn.cipher { border-color:#00c8ff; color:#00c8ff; }
-    .susp-btn.cipher:hover { background:rgba(0,200,255,.1); box-shadow:0 0 15px rgba(0,200,255,.2); }
+    .susp-btn:hover { background:rgba(0,200,255,.1); box-shadow:0 0 15px rgba(0,200,255,.2); }
 
     /* SMS notification — centered overlay */
     #sms-overlay {
@@ -112,7 +110,7 @@
       padding:32px 40px; width:100%; max-width:420px;
       box-shadow:0 0 40px rgba(0,200,255,.1); text-align:center;
     }
-    #cipher-box h2 { color:#00c8ff; font-size:11px; letter-spacing:4px; text-transform:uppercase; margin-bottom:24px; }
+    #cipher-box h2 { color:#00c8ff; font-size:11px; letter-spacing:4px; text-transform:uppercase; margin-bottom:24px; text-align:center; line-height:1.8; }
     .cipher-data { background:rgba(0,10,20,.8); border:1px solid #1a4060; padding:20px; margin-bottom:20px; }
     .cipher-row { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; font-size:12px; }
     .cipher-row:last-child { margin-bottom:0; }
@@ -123,11 +121,22 @@
       width:100%; background:rgba(0,20,40,.8); border:1px solid #1a4060;
       color:#00c8ff; padding:12px; font-family:'Courier New',monospace;
       font-size:20px; text-align:center; letter-spacing:4px; outline:none; margin-bottom:14px;
+      -moz-appearance:textfield;
     }
+    #cipher-input::-webkit-outer-spin-button,
+    #cipher-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
     #cipher-input:focus { border-color:#00c8ff; }
     #cipher-input.error { border-color:#ff4444; }
     #cipher-warning { color:#ff6666; font-size:11px; margin-bottom:12px; display:none; }
     #cipher-warning.show { display:block; }
+
+    /* ── TRANSITION FLASH animation ── */
+    @keyframes screenFlash {
+      0%   { opacity:0; transform:scale(1.04); filter:brightness(2); }
+      15%  { opacity:1; filter:brightness(1.5); }
+      100% { opacity:1; transform:scale(1); filter:brightness(1); }
+    }
+    #screen-suspicious.animate-in { animation: screenFlash .6s ease-out forwards; }
 
     /* ── MAIN DASHBOARD ── */
     #screen-main { flex-direction:column; min-height:100vh; }
@@ -171,6 +180,40 @@
     .file-entry.folder:hover .fe-name { color:#00c8ff; }
     .file-entry .fe-meta { color:#4a7090; font-size:10px; letter-spacing:1px; }
 
+    /* ── AUDIO PLAYER SCREEN ── */
+    #screen-audio { flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
+    #audio-box {
+      background:rgba(5,15,25,.97); border:1px solid #1a4060; border-top:2px solid #00c8ff;
+      padding:36px 40px; width:100%; max-width:480px;
+      box-shadow:0 0 40px rgba(0,200,255,.12); text-align:center;
+    }
+    #audio-box .audio-icon { font-size:40px; margin-bottom:14px; }
+    #audio-box .audio-filename {
+      color:#00c8ff; font-size:13px; letter-spacing:3px; margin-bottom:24px;
+      text-transform:uppercase; word-break:break-all;
+    }
+    /* Custom audio bar */
+    #audio-bar-wrap { width:100%; margin-bottom:18px; }
+    #audio-progress-bg {
+      width:100%; height:6px; background:rgba(0,200,255,.15); border-radius:3px;
+      cursor:pointer; position:relative; margin-bottom:8px;
+    }
+    #audio-progress-fill {
+      height:100%; background:#00c8ff; border-radius:3px; width:0%; transition:width .1s linear;
+      pointer-events:none;
+    }
+    #audio-time {
+      display:flex; justify-content:space-between; font-size:10px; color:#4a7090; letter-spacing:1px;
+    }
+    #audio-controls { display:flex; align-items:center; justify-content:center; gap:14px; }
+    #audio-play-btn {
+      background:transparent; border:1px solid #00c8ff; color:#00c8ff; padding:10px 24px;
+      font-family:'Courier New',monospace; font-size:11px; letter-spacing:3px; cursor:pointer;
+      text-transform:uppercase; transition:all .2s;
+    }
+    #audio-play-btn:hover { background:rgba(0,200,255,.1); box-shadow:0 0 15px rgba(0,200,255,.2); }
+    #audio-status { font-size:10px; color:#4a7090; letter-spacing:2px; margin-top:14px; min-height:16px; }
+
     /* FILE MODAL */
     #file-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:100; align-items:center; justify-content:center; padding:20px; }
     #file-modal.show { display:flex; }
@@ -186,7 +229,16 @@
 <!-- ════ SCREEN LOGIN ════ -->
 <div id="screen-login" class="screen active">
   <div id="orbayu-logo">
-    <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- Logo: cambia src por la ruta a tu PNG cuando lo tengas -->
+    <img
+      id="orbayu-logo-img"
+      src="https://illanrn.github.io/escapela/img/orbayu_logo.png"
+      alt="ORBAYU"
+      style="height:100px; width:auto; filter:drop-shadow(0 0 18px rgba(0,200,255,.5));"
+      onerror="this.style.display='none'; document.getElementById('orbayu-logo-svg').style.display='block';"
+    />
+    <!-- SVG fallback si no existe el PNG -->
+    <svg id="orbayu-logo-svg" style="display:none;" width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
       <circle cx="50" cy="50" r="46" fill="none" stroke="#1a4060" stroke-width="1.5"/>
       <circle cx="50" cy="50" r="40" fill="none" stroke="#00c8ff" stroke-width=".5" opacity=".4"/>
       <line x1="50" y1="20" x2="50" y2="80" stroke="#00c8ff" stroke-width="1.5" opacity=".7"/>
@@ -199,10 +251,6 @@
       <circle cx="50" cy="78" r="2.5" fill="#00c8ff" opacity=".6"/>
       <circle cx="22" cy="50" r="2.5" fill="#00c8ff" opacity=".6"/>
       <circle cx="78" cy="50" r="2.5" fill="#00c8ff" opacity=".6"/>
-      <circle cx="30" cy="30" r="2" fill="#00c8ff" opacity=".35"/>
-      <circle cx="70" cy="70" r="2" fill="#00c8ff" opacity=".35"/>
-      <circle cx="70" cy="30" r="2" fill="#00c8ff" opacity=".35"/>
-      <circle cx="30" cy="70" r="2" fill="#00c8ff" opacity=".35"/>
     </svg>
     <div class="logo-name">ORBAYU</div>
     <div class="logo-sub">Sistema de Acceso Restringido</div>
@@ -256,7 +304,7 @@
 <!-- ════ SCREEN CIPHER ════ -->
 <div id="screen-cipher" class="screen">
   <div id="cipher-box">
-    <h2>Verificación · Matriz de Cifrado</h2>
+    <h2>Verificación adicional<br/>Matriz de Cifrado</h2>
     <div class="cipher-data">
       <div class="cipher-row">
         <span class="c-label">Día asignado</span>
@@ -268,7 +316,7 @@
       </div>
     </div>
     <!-- Sin pista de fórmula — el jugador debe saber cómo calcularla -->
-    <input type="number" id="cipher-input" placeholder="_ _ _"/>
+    <input type="number" id="cipher-input" placeholder="——"/>
     <div id="cipher-warning">Código incorrecto. Inténtelo de nuevo.</div>
     <button class="btn-primary" onclick="doVerifyCipher()">Verificar</button>
   </div>
@@ -283,7 +331,7 @@
   </div>
   <div id="main-content">
     <h1>Panel de Control</h1>
-    <div class="main-buttons">
+    <div class="main-buttons" id="main-buttons-wrap">
       <button class="main-btn tbc"><span class="btn-icon">🔒</span>Área Privada</button>
       <button class="main-btn" onclick="showDocs()"><span class="btn-icon">📁</span>Documentos</button>
       <button class="main-btn tbc"><span class="btn-icon">ℹ</span>Sobre Nosotros</button>
@@ -303,6 +351,28 @@
   </div>
 </div>
 
+<!-- ════ SCREEN AUDIO ════ -->
+<div id="screen-audio" class="screen">
+  <div id="audio-box">
+    <div class="audio-icon">🎵</div>
+    <div class="audio-filename" id="audio-filename">Misión de la Santina.mp3</div>
+    <div id="audio-bar-wrap">
+      <div id="audio-progress-bg">
+        <div id="audio-progress-fill"></div>
+      </div>
+      <div id="audio-time">
+        <span id="audio-current">0:00</span>
+        <span id="audio-duration">--:--</span>
+      </div>
+    </div>
+    <div id="audio-controls">
+      <button id="audio-play-btn" onclick="toggleAudio()">▶ Reproducir</button>
+    </div>
+    <div id="audio-status">Haga clic para reproducir</div>
+    <audio id="audio-player" src="https://illanrn.github.io/escapela/img/audio_final.m4a" preload="metadata"></audio>
+  </div>
+</div>
+
 <!-- FILE MODAL -->
 <div id="file-modal">
   <div id="file-modal-box">
@@ -314,102 +384,14 @@
 
 <script>
 // ════════════════════════════════════════════
-//  CONFIG — edita aquí usuario, contraseña y valores de días
+//  CONFIG
 // ════════════════════════════════════════════
 const CONFIG = {
   VALID_USER: "narom.i",
-  VALID_PASS: "islandia",
-
-  // Valor numérico de cada día (1–7).
-  // La fórmula es: DAY_VALUE * 2 + RANDOM_NUM  (cámbiala en verifyCipher si quieres)
-  DAY_VALUES: {
-    "Lunes":     5,
-    "Martes":    6,
-    "Miércoles": 7,
-    "Jueves":    1,
-    "Viernes":   2,
-    "Sábado":    3,
-    "Domingo":   4
-  }
-};
-
-// ════════════════════════════════════════════
-//  ÁRBOL DE CARPETAS
-//  ★ Modifica FILE_TREE libremente.
-//  El fichero objetivo está en: Operaciones > Archivos > Clasificado > ORBAYU_7 > informe.txt
-// ════════════════════════════════════════════
-const FILE_TREE = {
-  name:"raíz", type:"folder", children:[
-    { name:"Administración", type:"folder", children:[
-      { name:"Personal", type:"folder", children:[
-        { name:"registros_personal_2023.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 4 REQUERIDO]" },
-        { name:"contratos_activos.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 4 REQUERIDO]" }
-      ]},
-      { name:"Presupuestos", type:"folder", children:[
-        { name:"presupuesto_2024.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 3 REQUERIDO]" },
-        { name:"gastos_reservados.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 5 REQUERIDO]" }
-      ]}
-    ]},
-    { name:"Comunicaciones", type:"folder", children:[
-      { name:"Internas", type:"folder", children:[
-        { name:"circular_002_2025.msg", type:"file", content:"CIRCULAR 002/2025\n\nSe recuerda a todos los agentes que el protocolo de comunicación cifrada ORBAYU-C es de uso obligatorio para cualquier transmisión con clasificación superior a CONFIDENCIAL." },
-        { name:"aviso_sistema.msg", type:"file", content:"AVISO DE SISTEMA\n\nMantenimiento programado el próximo martes entre las 02:00 y las 04:00 horas." }
-      ]},
-      { name:"Externas", type:"folder", children:[
-        { name:"[VACÍO]", type:"file", content:"Esta carpeta no contiene archivos activos." }
-      ]}
-    ]},
-    { name:"Operaciones", type:"folder", children:[
-      { name:"Misiones Activas", type:"folder", children:[
-        { name:"MISION_ALFA", type:"folder", children:[
-          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
-        ]},
-        { name:"MISION_BETA", type:"folder", children:[
-          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" },
-          { name:"mapa_zona.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
-        ]}
-      ]},
-      { name:"Archivos", type:"folder", children:[
-        { name:"Histórico", type:"folder", children:[
-          { name:"informe_2018.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" },
-          { name:"informe_2019.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" },
-          { name:"informe_2020.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" }
-        ]},
-        { name:"Pendiente", type:"folder", children:[
-          { name:"nota_interna.dat", type:"file", content:"Pendiente de clasificación. Trasladar a Clasificado una vez revisado por el coordinador." }
-        ]},
-        { name:"Clasificado", type:"folder", children:[
-          { name:"ORBAYU_1", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"ORBAYU_2", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"ORBAYU_3", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"ORBAYU_4", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"ORBAYU_5", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"ORBAYU_6", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          {
-            // ★ CARPETA OBJETIVO
-            name:"ORBAYU_7", type:"folder", children:[
-              {
-                name:"informe.txt", type:"file",
-                // ★ CAMBIA ESTE CONTENIDO POR LA PISTA DEL ESCAPE ROOM
-                content:"CLASIFICACIÓN: ALTO SECRETO\nREFERENCIA: ORB-7-ALFA\n\n[CONTENIDO PENDIENTE DE RELLENAR]\n\nEste archivo contiene la pista del escape room.\nComplétalo antes de la activación."
-              }
-            ]
-          },
-          { name:"ORBAYU_8", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"ORBAYU_9", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]}
-        ]}
-      ]}
-    ]},
-    { name:"Recursos", type:"folder", children:[
-      { name:"Protocolos", type:"folder", children:[
-        { name:"protocolo_seguridad.pdf", type:"file", content:"PROTOCOLO DE SEGURIDAD ORBAYU v3.2\n\n1. Renovar credenciales cada 90 días.\n2. Acceso a niveles 4 y 5 requiere autenticación biométrica.\n3. Ante brecha de seguridad, contactar con el coordinador de guardia." },
-        { name:"manual_cifrado.pdf", type:"file", content:"MANUAL DE CIFRADO · USO INTERNO\n\nLa matriz de cifrado se actualiza cada semana. Los valores asignados a cada día de la semana son conocidos únicamente por agentes con acceso nivel 2 o superior." }
-      ]},
-      { name:"Plantillas", type:"folder", children:[
-        { name:"plantilla_informe.tpl", type:"file", content:"PLANTILLA ESTÁNDAR — INFORME DE OPERACIÓN\n\nFECHA:\nAGENTE:\nCLASIFICACIÓN:\nRESUMEN:\n\n[...]" }
-      ]}
-    ]}
-  ]
+  VALID_PASS: "islandia",   // case-insensitive
+  // Días indexados por número (0=Lunes … 6=Domingo) para evitar problemas de encoding
+  DAY_NAMES:  ["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"],
+  DAY_VALUES: [5, 6, 7, 1, 2, 3, 4]
 };
 
 // ════════════════════════════════════════════
@@ -418,6 +400,7 @@ const FILE_TREE = {
 let currentUser = "";
 let cipherDay = "", cipherNum = 0, cipherAnswer = 0;
 let navStack = [FILE_TREE];
+let audioUnlocked = false;  // se activa al terminar el audio
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -450,18 +433,24 @@ function doLogin() {
     iUser.value = ""; iPass.value = "";
     return;
   }
-  if (pass !== CONFIG.VALID_PASS) {
+  if (pass.toLowerCase() !== CONFIG.VALID_PASS.toLowerCase()) {
     warning.textContent = "⚠ Contraseña incorrecta.";
     warning.classList.add('show');
     iPass.classList.add('error');
     iPass.value = "";
-    // restore type to password in case it was shown
     iPass.type = 'password';
     document.getElementById('pass-toggle-btn').textContent = '👁';
     return;
   }
   currentUser = user;
-  showScreen('screen-suspicious');
+  // Mostrar pantalla de sesión inusual CON animación
+  const suspScreen = document.getElementById('screen-suspicious');
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  suspScreen.classList.add('active');
+  suspScreen.classList.remove('animate-in');
+  // forzar reflow para que la animación se relance
+  void suspScreen.offsetWidth;
+  suspScreen.classList.add('animate-in');
 }
 
 document.getElementById('input-user').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('input-pass').focus(); });
@@ -477,37 +466,82 @@ function closeSMS() {
 
 // ── CIPHER ──
 function showCipher() {
-  const days = Object.keys(CONFIG.DAY_VALUES);
-  cipherDay = days[Math.floor(Math.random() * days.length)];
-  cipherNum = Math.floor(Math.random() * 11) + 5;
-  cipherAnswer = CONFIG.DAY_VALUES[cipherDay] * 2 + cipherNum;
+  // Índice aleatorio 0–6
+  const idx = Math.floor(Math.random() * CONFIG.DAY_NAMES.length);
+  cipherDay   = CONFIG.DAY_NAMES[idx];
+  const dayVal = CONFIG.DAY_VALUES[idx];
+  cipherNum    = Math.floor(Math.random() * 11) + 5;   // 5–15
+  cipherAnswer = dayVal * 2 + cipherNum;
 
   document.getElementById('cipher-day').textContent = cipherDay;
   document.getElementById('cipher-num').textContent = cipherNum;
-  document.getElementById('cipher-input').value = "";
+  document.getElementById('cipher-input').value = '';
   document.getElementById('cipher-warning').style.display = 'none';
   showScreen('screen-cipher');
 }
 
 function verifyCipher() {
-  const val = parseInt(document.getElementById('cipher-input').value, 10);
+  const raw = document.getElementById('cipher-input').value;
+  const val = parseInt(raw, 10);
+  const w = document.getElementById('cipher-warning');
+  const inp = document.getElementById('cipher-input');
+
+  // Validación básica
+  if (raw.trim() === '' || isNaN(val)) {
+    w.textContent = 'Introduzca un código numérico.';
+    w.style.display = 'block';
+    inp.classList.add('error');
+    setTimeout(() => { inp.classList.remove('error'); w.style.display = 'none'; }, 1200);
+    return;
+  }
+
   if (val === cipherAnswer) {
+    w.style.display = 'none';
     document.getElementById('topbar-user').textContent = "Agente: " + currentUser.toUpperCase();
+    renderMainButtons();
     showScreen('screen-main');
   } else {
-    const w = document.getElementById('cipher-warning');
+    w.textContent = 'Código incorrecto. Inténtelo de nuevo.';
     w.style.display = 'block';
-    const inp = document.getElementById('cipher-input');
     inp.classList.add('error');
-    inp.value = "";
-    setTimeout(() => inp.classList.remove('error'), 1000);
+    inp.value = '';
+    setTimeout(() => { inp.classList.remove('error'); }, 1000);
   }
 }
 function doVerifyCipher() { verifyCipher(); }
 document.getElementById('cipher-input').addEventListener('keydown', e => { if(e.key==='Enter') verifyCipher(); });
 
-// ── MAIN & LOGOUT ──
-function showMain() { showScreen('screen-main'); }
+// ── MAIN: renderizar botones según estado unlock ──
+function renderMainButtons() {
+  const wrap = document.getElementById('main-buttons-wrap');
+  if (audioUnlocked) {
+    wrap.innerHTML = `
+      <button class="main-btn" onclick="goAreaPrivada()"><span class="btn-icon">🔒</span>Área Privada</button>
+      <button class="main-btn" onclick="showDocs()"><span class="btn-icon">📁</span>Documentos</button>
+      <button class="main-btn" onclick="goSobreNosotros()"><span class="btn-icon">ℹ</span>Sobre Nosotros</button>
+    `;
+  } else {
+    wrap.innerHTML = `
+      <button class="main-btn tbc" title="Acceso restringido"><span class="btn-icon">🔒</span>Área Privada</button>
+      <button class="main-btn" onclick="showDocs()"><span class="btn-icon">📁</span>Documentos</button>
+      <button class="main-btn tbc" title="Acceso restringido"><span class="btn-icon">ℹ</span>Sobre Nosotros</button>
+    `;
+  }
+}
+
+function goAreaPrivada() {
+  // Página dummy — definir URL cuando esté lista
+  alert("Área Privada — página pendiente de definir");
+}
+function goSobreNosotros() {
+  // Página dummy — definir URL cuando esté lista
+  alert("Sobre Nosotros — página pendiente de definir");
+}
+
+function showMain() {
+  renderMainButtons();
+  showScreen('screen-main');
+}
 function doLogout() {
   currentUser = "";
   document.getElementById('input-user').value = "";
@@ -552,11 +586,11 @@ function renderFileArea() {
 
   (current.children || []).forEach(item => {
     const row = document.createElement('div');
-    row.className = 'file-entry ' + item.type;
-    const icon = item.type==='folder' ? '📁' : '📄';
-    const meta = item.type==='folder' ? `${(item.children||[]).length} elemento(s)` : 'archivo';
+    row.className = 'file-entry ' + (item.type === 'folder' ? 'folder' : 'file');
+    let icon = item.type === 'folder' ? '📁' : (item.type === 'audio' ? '🎵' : '📄');
+    const meta = item.type === 'folder' ? `${(item.children||[]).length} elemento(s)` : (item.type === 'audio' ? 'audio' : 'archivo');
     row.innerHTML = `<span class="fe-icon">${icon}</span><span class="fe-name">${item.name}</span><span class="fe-meta">${meta}</span>`;
-    if (item.type==='folder') row.onclick = () => { navStack.push(item); renderFileArea(); };
+    if (item.type === 'folder') row.onclick = () => { navStack.push(item); renderFileArea(); };
     else row.onclick = () => openFile(item);
     area.appendChild(row);
   });
@@ -570,11 +604,87 @@ function renderFileArea() {
 }
 
 function openFile(item) {
+  if (item.type === 'audio') {
+    openAudioPlayer(item);
+    return;
+  }
   document.getElementById('file-modal-title').textContent = item.name.toUpperCase();
   document.getElementById('file-modal-content').textContent = item.content || "[Sin contenido]";
   document.getElementById('file-modal').classList.add('show');
 }
 function closeModal() { document.getElementById('file-modal').classList.remove('show'); }
+
+// ── AUDIO PLAYER ──
+function openAudioPlayer(item) {
+  document.getElementById('audio-filename').textContent = item.name;
+  const audio = document.getElementById('audio-player');
+  audio.src = item.audioSrc;
+  audio.load();
+  document.getElementById('audio-play-btn').textContent = '▶ Reproducir';
+  document.getElementById('audio-status').textContent = 'Haga clic para reproducir';
+  document.getElementById('audio-progress-fill').style.width = '0%';
+  document.getElementById('audio-current').textContent = '0:00';
+  document.getElementById('audio-duration').textContent = '--:--';
+  showScreen('screen-audio');
+}
+
+function toggleAudio() {
+  const audio = document.getElementById('audio-player');
+  const btn = document.getElementById('audio-play-btn');
+  if (audio.paused) {
+    audio.play();
+    btn.textContent = '⏸ Pausar';
+    document.getElementById('audio-status').textContent = 'Reproduciendo…';
+  } else {
+    audio.pause();
+    btn.textContent = '▶ Reproducir';
+    document.getElementById('audio-status').textContent = 'En pausa';
+  }
+}
+
+function formatTime(s) {
+  if (isNaN(s)) return '--:--';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+(function setupAudio() {
+  const audio = document.getElementById('audio-player');
+  const fill = document.getElementById('audio-progress-fill');
+  const bg = document.getElementById('audio-progress-bg');
+  const cur = document.getElementById('audio-current');
+  const dur = document.getElementById('audio-duration');
+
+  audio.addEventListener('loadedmetadata', () => {
+    dur.textContent = formatTime(audio.duration);
+  });
+  audio.addEventListener('timeupdate', () => {
+    if (audio.duration) {
+      fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+      cur.textContent = formatTime(audio.currentTime);
+    }
+  });
+  audio.addEventListener('ended', () => {
+    document.getElementById('audio-play-btn').textContent = '▶ Reproducir';
+    document.getElementById('audio-status').textContent = '✓ Reproducción completada';
+    fill.style.width = '100%';
+    // Desbloquear botones y volver al panel principal tras breve pausa
+    audioUnlocked = true;
+    setTimeout(() => {
+      renderMainButtons();
+      showScreen('screen-main');
+    }, 1800);
+  });
+
+  // Click en barra para saltar
+  bg.addEventListener('click', e => {
+    if (!audio.duration) return;
+    const rect = bg.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = ratio * audio.duration;
+  });
+})();
 </script>
 </body>
 </html>
