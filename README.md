@@ -5,11 +5,11 @@ Algunas de las mentes más brillantes de la rama educativa de la administración
 <br/>
 Adéntrate en este apasionante Funcionariado-Noir que ya ha cautivado a millones de lectores en el mundo entero. La experiencia de misterio, enigmas y secretos revelación de este 2026. <b>¿Podrás resolver los deberes, completar el enigma, y remontar la nota de Asturias en el informe Pisa?</b> <br/>
 <br/>
-- Top 10 escapes caseros - illanrn.github.io<br/>
-- Un escape tontorrón - Ángel<br/>
-- Very chingón this is - The New York times new roman<br/>
-- Lo hice yo, no puedo opinar. Muy bueno. - Candela<br/>
-- 99% of people won't be able to solve this - TikTok Today<br/>
+- _Top 10 escapes caseros_ - illanrn.github.io<br/>
+- _Un escape tontorrón_ - Ángel<br/>
+- _Very chingón this is_ - The New York times new roman<br/>
+- _Lo hice yo, no puedo opinar. Muy bueno._ - Candela<br/>
+- _99% of people won't be able to solve this_ - TikTok Today<br/>
 
 
 
