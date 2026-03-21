@@ -39,16 +39,21 @@
 
     /* FE DE ERRATAS */
     #fe-erratas {
-      background: #fff8e6; border-bottom: 1px solid #ddb800;
-      padding: 6px 16px; display: flex; align-items: baseline; gap: 10px; font-size: 12px;
+      background: #fffbea;
+      border-top: 3px solid #e6a800;
+      border-bottom: 2px solid #f0d060;
+      padding: 12px 20px;
+      display: flex; align-items: center; gap: 14px; font-size: 12.5px;
+      box-shadow: 0 2px 6px rgba(200,150,0,0.12);
     }
+    #fe-erratas .fe-icon { font-size: 22px; flex-shrink: 0; }
     #fe-erratas .fe-badge {
-      background: #8a6800; color: #fff; font-size: 9px; font-weight: bold;
-      letter-spacing: 1px; text-transform: uppercase; padding: 2px 7px;
-      border-radius: 2px; white-space: nowrap; flex-shrink: 0;
+      background: #b07800; color: #fff; font-size: 10px; font-weight: bold;
+      letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px;
+      border-radius: 3px; white-space: nowrap; flex-shrink: 0;
     }
-    #fe-erratas .fe-text { color: #5a4000; line-height: 1.5; }
-    #fe-erratas .fe-text strong { color: #3a2800; }
+    #fe-erratas .fe-text { color: #4a3200; line-height: 1.6; }
+    #fe-erratas .fe-text strong { color: #2a1a00; }
 
     /* LAYOUT */
     #page-wrap { max-width: 1040px; margin: 0 auto; padding: 12px 8px; display: flex; gap: 12px; align-items: flex-start; }
@@ -95,10 +100,10 @@
     }
     .pat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
     .pat-card { display: flex; align-items: center; gap: 8px; }
+    /* Para cambiar la foto de un patrono, edita el atributo src del <img> correspondiente */
     .pat-photo {
       width: 34px; height: 34px; border-radius: 50%; border: 2px solid #b8d0e8;
-      flex-shrink: 0; background: #ddeaf6; display: flex;
-      align-items: center; justify-content: center; font-size: 15px;
+      flex-shrink: 0; object-fit: cover; background: #ddeaf6;
     }
     .pat-info { font-size: 11px; color: #222; line-height: 1.3; }
     .pat-info small { color: #888; font-size: 9px; }
@@ -121,7 +126,7 @@
     .sb-nav a::before { content: "›  "; color: #f5a800; }
 
     /* FOOTER */
-    #footer { background: #002a5a; color: #7aaad0; text-align: center; padding: 14px; font-size: 10px; border-top: 3px solid #f5a800; }
+    #footer { background: #002a5a; color: #7aaad0; padding: 20px 14px 14px; font-size: 10px; border-top: 3px solid #f5a800; }
     #footer a { color: #5590c0; } #footer a:hover { color: #b8d4f0; }
   </style>
 </head>
@@ -129,37 +134,8 @@
 
 <div id="hd-stripe">
   <div id="hd-left">
-    <!-- Escudo SVG estilo asturiano: Cruz de la Victoria + castillo -->
-    <svg width="54" height="62" viewBox="0 0 54 62" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1 1 H53 V36 Q53 58 27 61 Q1 58 1 36 Z" fill="#fff" stroke="#9a7800" stroke-width="1.2"/>
-      <!-- Fondo cuartel izquierdo (azul) -->
-      <clipPath id="left-clip"><path d="M1 1 H27 V36 Q27 50 27 58 Q1 56 1 36 Z"/></clipPath>
-      <rect x="1" y="1" width="26" height="60" fill="#004e96" clip-path="url(#left-clip)"/>
-      <!-- Cruz de la Victoria (izquierdo) -->
-      <g transform="translate(14,22)">
-        <rect x="-2" y="-11" width="4" height="22" fill="#f5c800"/>
-        <rect x="-8" y="-2" width="16" height="4" fill="#f5c800"/>
-        <circle cx="0" cy="-13" r="2" fill="#f5c800"/>
-        <circle cx="0" cy="13" r="2" fill="#f5c800"/>
-        <circle cx="-10" cy="0" r="2" fill="#f5c800"/>
-        <circle cx="10" cy="0" r="2" fill="#f5c800"/>
-      </g>
-      <!-- Fondo cuartel derecho (gules/rojo) -->
-      <clipPath id="right-clip"><path d="M27 1 H53 V36 Q53 56 27 58 Z"/></clipPath>
-      <rect x="27" y="1" width="27" height="60" fill="#c8001a" clip-path="url(#right-clip)"/>
-      <!-- Castillo (derecho) -->
-      <g transform="translate(40,22)">
-        <rect x="-6" y="-8" width="12" height="14" fill="#f5c800"/>
-        <rect x="-6" y="-13" width="3" height="5" fill="#f5c800"/>
-        <rect x="-2" y="-13" width="4" height="5" fill="#f5c800"/>
-        <rect x="3" y="-13" width="3" height="5" fill="#f5c800"/>
-        <rect x="-11" y="-4" width="5" height="10" fill="#f5c800"/>
-        <rect x="6" y="-4" width="5" height="10" fill="#f5c800"/>
-        <rect x="-3" y="-2" width="6" height="8" fill="#c8001a"/>
-      </g>
-      <!-- Borde final -->
-      <path d="M1 1 H53 V36 Q53 58 27 61 Q1 58 1 36 Z" fill="none" stroke="#8a6800" stroke-width="1.2"/>
-    </svg>
+    <!-- Logo: cambia el src para actualizar la imagen -->
+    <img src="https://illanrn.github.io/escapela/img/educastur_logo.png" alt="Educastur" style="height:58px; width:auto; display:block;"/>
     <div id="hd-brand">
       <div class="b-main">Educastur</div>
       <div class="b-sub">Portal educativo · Principado de Asturias</div>
@@ -190,6 +166,7 @@
 </nav>
 
 <div id="fe-erratas">
+  <span class="fe-icon">⚠️</span>
   <span class="fe-badge">Fe de erratas</span>
   <span class="fe-text">
     Se comunica que <strong>los ejercicios del bloque temático 3 (Unidades 7–12) están mal</strong> en la edición distribuida durante el presente curso. Las respuestas de las páginas 84–112 contienen errores que invalidan su uso como material de evaluación. Se publicará versión corregida próximamente.
@@ -202,51 +179,51 @@
     <div class="sec-title" id="noticias">Noticias y avisos <a href="#">Ver todas →</a></div>
     <div class="news-wrap">
       <div class="news-item">
-        <div class="ni-date"><div class="d-day">18</div><div class="d-mon">Mar</div><div class="d-yr">2025</div></div>
+        <div class="ni-date"><div class="d-day">12</div><div class="d-mon">Mar</div><div class="d-yr">2026</div></div>
         <div class="ni-body">
           <div class="ni-title">Convocatoria de ayudas para material escolar 2025/2026 — plazo abierto</div>
           <div class="ni-sub">La Consejería de Educación abre el período de solicitudes para becas de material escolar dirigidas a familias con rentas inferiores al umbral establecido en la Orden EDE/2025.</div>
-          <div class="ni-meta"><span class="author">👤 narom.i</span><span class="cat">Convocatorias</span><span>18/03/2025 · 09:34</span></div>
+          <div class="ni-meta"><span class="author">👤 narom.i</span><span class="cat">Convocatorias</span><span>12/03/2026 · 09:34</span></div>
         </div>
       </div>
       <div class="news-item">
-        <div class="ni-date"><div class="d-day">15</div><div class="d-mon">Mar</div><div class="d-yr">2025</div></div>
+        <div class="ni-date"><div class="d-day">18</div><div class="d-mon">Feb</div><div class="d-yr">2026</div></div>
         <div class="ni-body">
           <div class="ni-title">Actualización del calendario escolar: modificaciones en el periodo de evaluaciones de junio</div>
-          <div class="ni-sub">Las fechas de las pruebas extraordinarias de junio se adelantan tres días respecto al calendario publicado en diciembre de 2024. Los centros deberán adaptar su programación.</div>
-          <div class="ni-meta"><span class="author">👤 admin.edu</span><span class="cat">Calendario</span><span>15/03/2025 · 14:12</span></div>
+          <div class="ni-sub">Las fechas de las pruebas extraordinarias de junio se adelantan tres días respecto al calendario publicado en diciembre de 2025. Los centros deberán adaptar su programación.</div>
+          <div class="ni-meta"><span class="author">👤 admin.edu</span><span class="cat">Calendario</span><span>18/02/2026 · 14:12</span></div>
         </div>
       </div>
       <div class="news-item">
-        <div class="ni-date"><div class="d-day">12</div><div class="d-mon">Mar</div><div class="d-yr">2025</div></div>
+        <div class="ni-date"><div class="d-day">30</div><div class="d-mon">Ene</div><div class="d-yr">2026</div></div>
         <div class="ni-body">
           <div class="ni-title">Nuevo protocolo de atención a la diversidad en centros de Educación Primaria</div>
-          <div class="ni-sub">Se publican las instrucciones para la aplicación del nuevo protocolo de detección temprana y atención a alumnado con necesidades educativas especiales, conforme al Decreto 85/2024.</div>
-          <div class="ni-meta"><span class="author">👤 narom.i</span><span class="cat">Normativa</span><span>12/03/2025 · 10:05</span></div>
+          <div class="ni-sub">Se publican las instrucciones para la aplicación del nuevo protocolo de detección temprana y atención a alumnado con necesidades educativas especiales, conforme al Decreto 85/2025.</div>
+          <div class="ni-meta"><span class="author">👤 gestion.edu</span><span class="cat">Normativa</span><span>30/01/2026 · 10:05</span></div>
         </div>
       </div>
       <div class="news-item">
-        <div class="ni-date"><div class="d-day">08</div><div class="d-mon">Mar</div><div class="d-yr">2025</div></div>
+        <div class="ni-date"><div class="d-day">15</div><div class="d-mon">Ene</div><div class="d-yr">2026</div></div>
         <div class="ni-body">
           <div class="ni-title">Jornadas de formación docente en competencias digitales: inscripción abierta</div>
-          <div class="ni-sub">El CIFP La Laboral acoge los días 28 y 29 de marzo las Jornadas de Competencia Digital Docente, con talleres sobre IA educativa y robótica en el aula.</div>
-          <div class="ni-meta"><span class="author">👤 formacion.cpr</span><span class="cat">Formación</span><span>08/03/2025 · 08:50</span></div>
+          <div class="ni-sub">El CIFP La Laboral acoge los días 28 y 29 de enero las Jornadas de Competencia Digital Docente, con talleres sobre IA educativa y robótica en el aula.</div>
+          <div class="ni-meta"><span class="author">👤 formacion.cpr</span><span class="cat">Formación</span><span>15/01/2026 · 08:50</span></div>
         </div>
       </div>
       <div class="news-item">
-        <div class="ni-date"><div class="d-day">05</div><div class="d-mon">Mar</div><div class="d-yr">2025</div></div>
+        <div class="ni-date"><div class="d-day">04</div><div class="d-mon">Dic</div><div class="d-yr">2025</div></div>
         <div class="ni-body">
           <div class="ni-title">Resolución de concurso de traslados del cuerpo de maestros — listados provisionales</div>
-          <div class="ni-sub">Se publican los listados provisionales del concurso general de traslados 2024/2025. Los interesados disponen de 15 días hábiles para presentar alegaciones a través de la sede electrónica.</div>
-          <div class="ni-meta"><span class="author">👤 narom.i</span><span class="cat">Profesorado</span><span>05/03/2025 · 16:22</span></div>
+          <div class="ni-sub">Se publican los listados provisionales del concurso general de traslados 2025/2026. Los interesados disponen de 15 días hábiles para presentar alegaciones a través de la sede electrónica.</div>
+          <div class="ni-meta"><span class="author">👤 relaciones.int</span><span class="cat">Profesorado</span><span>04/12/2025 · 16:22</span></div>
         </div>
       </div>
       <div class="news-item">
-        <div class="ni-date"><div class="d-day">01</div><div class="d-mon">Mar</div><div class="d-yr">2025</div></div>
+        <div class="ni-date"><div class="d-day">18</div><div class="d-mon">Nov</div><div class="d-yr">2025</div></div>
         <div class="ni-body">
           <div class="ni-title">Participación de centros asturianos en el programa eTwinning 2025</div>
           <div class="ni-sub">34 centros educativos asturianos participan este curso en el programa europeo eTwinning, con proyectos colaborativos con escuelas de Portugal, Italia y Polonia sobre cultura y medio ambiente.</div>
-          <div class="ni-meta"><span class="author">👤 relaciones.int</span><span class="cat">Internacional</span><span>01/03/2025 · 11:30</span></div>
+          <div class="ni-meta"><span class="author">👤 narom.i</span><span class="cat">Internacional</span><span>18/11/2025 · 11:30</span></div>
         </div>
       </div>
     </div>
@@ -256,31 +233,32 @@
       <div class="pat-group">
         <div class="pat-group-title">🎨 Pintores</div>
         <div class="pat-grid">
-          <div class="pat-card"><div class="pat-photo">👨</div><div class="pat-info">Darío de Regoyos<br><small>1857–1913</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👩</div><div class="pat-info">Marola Pérez<br><small>1940–2018</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👨</div><div class="pat-info">Luis Fernández<br><small>1900–1973</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👩</div><div class="pat-info">Carmen Llano<br><small>1958–</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👨</div><div class="pat-info">Juan Martínez<br><small>1890–1965</small></div></div>
+          <!-- Para cambiar fotos: edita el src de cada img. Usa rutas relativas o absolutas a PNG. -->
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Darío de Regoyos" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Darío de Regoyos<br><small>1857–1913</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Marola Pérez" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Marola Pérez<br><small>1940–2018</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Luis Fernández" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Luis Fernández<br><small>1900–1973</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Carmen Llano" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Carmen Llano<br><small>1958–</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Juan Martínez" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Juan Martínez<br><small>1890–1965</small></div></div>
         </div>
       </div>
       <div class="pat-group">
         <div class="pat-group-title">🎵 Músicos</div>
         <div class="pat-grid">
-          <div class="pat-card"><div class="pat-photo">👨</div><div class="pat-info">Eduardo Martínez Torner<br><small>1888–1955</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👩</div><div class="pat-info">Ana Fontenla<br><small>1972–</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👨</div><div class="pat-info">Roberto Iglesias<br><small>1965–</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👩</div><div class="pat-info">Sofía Menéndez<br><small>1980–</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Eduardo Martínez Torner" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Eduardo Martínez Torner<br><small>1888–1955</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Ana Fontenla" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Ana Fontenla<br><small>1972–</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Roberto Iglesias" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Roberto Iglesias<br><small>1965–</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Sofía Menéndez" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Sofía Menéndez<br><small>1980–</small></div></div>
         </div>
       </div>
       <div class="pat-group">
         <div class="pat-group-title">⭐ Personalidades</div>
         <div class="pat-grid">
-          <div class="pat-card"><div class="pat-photo">👨</div><div class="pat-info">Gaspar M. de Jovellanos<br><small>1744–1811</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👩</div><div class="pat-info">Leopolda García<br><small>1910–1987</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👨</div><div class="pat-info">Álvaro Flórez Estrada<br><small>1766–1853</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👩</div><div class="pat-info">María Maeztu<br><small>1881–1948</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👨</div><div class="pat-info">Ramón Pérez de Ayala<br><small>1880–1962</small></div></div>
-          <div class="pat-card"><div class="pat-photo">👩</div><div class="pat-info">Concepción Arenal<br><small>1820–1893</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Gaspar M. de Jovellanos" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Gaspar M. de Jovellanos<br><small>1744–1811</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Leopolda García" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Leopolda García<br><small>1910–1987</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Álvaro Flórez Estrada" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Álvaro Flórez Estrada<br><small>1766–1853</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="María Maeztu" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">María Maeztu<br><small>1881–1948</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Ramón Pérez de Ayala" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Ramón Pérez de Ayala<br><small>1880–1962</small></div></div>
+          <div class="pat-card"><img class="pat-photo" src="https://illanrn.github.io/escapela/img/patrono_placeholder.png" alt="Concepción Arenal" onerror="this.style.background='#ddeaf6';this.removeAttribute('src')"/><div class="pat-info">Concepción Arenal<br><small>1820–1893</small></div></div>
         </div>
       </div>
     </div>
@@ -313,18 +291,46 @@
         <a href="#">Orientación educativa</a>
       </div>
     </div>
+    <!-- Vídeo: cambia el src del iframe por la URL embed de YouTube que desees -->
+    <!-- Formato: https://www.youtube.com/embed/VIDEO_ID -->
     <div class="sb-box">
-      <div class="sb-hd">Aviso legal</div>
-      <div class="sb-body" style="font-size:10px; color:#555; line-height:1.6;">Portal oficial del Principado de Asturias. Consejería de Educación. La información publicada está sujeta a las condiciones de uso de la Administración del Principado.</div>
+      <div class="sb-hd">▶ Canal Educastur</div>
+      <div style="padding:0;">
+        <div style="position:relative; width:100%; padding-top:56.25%; background:#000;">
+          <iframe
+            style="position:absolute;inset:0;width:100%;height:100%;border:none;"
+            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            title="Vídeo Educastur"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
     </div>
   </div>
 
 </div>
 
 <div id="footer">
-  © 2025 Principado de Asturias · Consejería de Educación ·
-  <a href="#">Aviso legal</a> · <a href="#">Privacidad</a> · <a href="#">Accesibilidad</a> · <a href="#">Mapa del sitio</a><br/><br/>
-  C/ Santullano, s/n · 33006 Oviedo · Tel. 985 10 60 00
+  <div style="max-width:1040px; margin:0 auto; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:12px;">
+    <!-- AVISO LEGAL -->
+    <div style="font-size:10px; font-weight:bold; text-transform:uppercase; letter-spacing:2px; color:#5590c0; margin-bottom:8px;">Aviso Legal</div>
+    <div style="font-size:10px; color:#7aaad0; line-height:1.7;">
+      Portal oficial del Principado de Asturias. Consejería de Educación.<br/>
+      La información publicada está sujeta a las condiciones de uso de la Administración del Principado de Asturias.<br/>
+      El acceso a este portal implica la aceptación de las presentes condiciones legales.
+    </div>
+    <div style="margin-top:10px; display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="#">Política de privacidad</a>
+      <a href="#">Accesibilidad</a>
+      <a href="#">Aviso legal completo</a>
+    </div>
+  </div>
+  <div style="max-width:1040px; margin:0 auto; text-align:center;">
+    © 2026 Principado de Asturias · Consejería de Educación ·
+    <a href="#">Aviso legal</a> · <a href="#">Privacidad</a> · <a href="#">Accesibilidad</a> · <a href="#">Mapa del sitio</a><br/><br/>
+    C/ Santullano, s/n · 33006 Oviedo · Tel. 985 10 60 00
+  </div>
 </div>
 </body>
 </html>

@@ -180,6 +180,42 @@
     .file-entry.folder:hover .fe-name { color:#00c8ff; }
     .file-entry .fe-meta { color:#4a7090; font-size:10px; letter-spacing:1px; }
 
+    /* ── PANTALLAS VACÍAS (privado / about) ── */
+    .placeholder-screen { flex-direction:column; min-height:100vh; }
+    .placeholder-topbar {
+      background:rgba(5,15,25,.98); border-bottom:1px solid #1a4060;
+      display:flex; align-items:center; gap:16px; padding:10px 24px;
+    }
+    .placeholder-topbar .tb-logo { font-size:12px; letter-spacing:5px; color:#00c8ff; }
+    .placeholder-topbar .tb-back {
+      font-size:10px; color:#4a7090; cursor:pointer; border:1px solid #1a4060;
+      padding:4px 10px; font-family:'Courier New',monospace; background:transparent;
+      letter-spacing:1px; transition:color .2s, border-color .2s;
+    }
+    .placeholder-topbar .tb-back:hover { color:#00c8ff; border-color:#00c8ff; }
+    .placeholder-body {
+      flex:1; display:flex; flex-direction:column; align-items:center;
+      justify-content:center; padding:40px 20px; gap:16px;
+    }
+    .placeholder-body .ph-icon { font-size:48px; opacity:.3; }
+    .placeholder-body .ph-title {
+      font-size:11px; letter-spacing:6px; color:#4a7090;
+      text-transform:uppercase; text-align:center;
+    }
+    .placeholder-body .ph-sub {
+      font-size:10px; color:#2a4060; letter-spacing:2px; text-align:center;
+    }
+
+    /* ── AUDIO CLOSE ── */
+    #audio-close-btn {
+      position:absolute; top:12px; right:14px;
+      background:transparent; border:none; color:#4a7090;
+      font-size:18px; cursor:pointer; font-family:'Courier New',monospace;
+      line-height:1; transition:color .2s;
+    }
+    #audio-close-btn:hover { color:#ff4444; }
+    #audio-box { position:relative; }
+
     /* ── AUDIO PLAYER SCREEN ── */
     #screen-audio { flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:20px; }
     #audio-box {
@@ -354,6 +390,7 @@
 <!-- ════ SCREEN AUDIO ════ -->
 <div id="screen-audio" class="screen">
   <div id="audio-box">
+    <button id="audio-close-btn" onclick="closeAudioPlayer()" title="Cerrar">✕</button>
     <div class="audio-icon">🎵</div>
     <div class="audio-filename" id="audio-filename">Misión de la Santina.mp3</div>
     <div id="audio-bar-wrap">
@@ -370,6 +407,32 @@
     </div>
     <div id="audio-status">Haga clic para reproducir</div>
     <audio id="audio-player" src="https://illanrn.github.io/escapela/img/audio_final.m4a" preload="metadata"></audio>
+  </div>
+</div>
+
+<!-- ════ SCREEN ÁREA PRIVADA ════ -->
+<div id="screen-privado" class="screen placeholder-screen">
+  <div class="placeholder-topbar">
+    <div class="tb-logo">ORBAYU · ÁREA PRIVADA</div>
+    <button class="tb-back" onclick="showMain()">← Volver al panel</button>
+  </div>
+  <div class="placeholder-body">
+    <div class="ph-icon">🔒</div>
+    <div class="ph-title">Área Privada</div>
+    <div class="ph-sub">[ Contenido pendiente de definir ]</div>
+  </div>
+</div>
+
+<!-- ════ SCREEN SOBRE NOSOTROS ════ -->
+<div id="screen-about" class="screen placeholder-screen">
+  <div class="placeholder-topbar">
+    <div class="tb-logo">ORBAYU · SOBRE NOSOTROS</div>
+    <button class="tb-back" onclick="showMain()">← Volver al panel</button>
+  </div>
+  <div class="placeholder-body">
+    <div class="ph-icon">ℹ</div>
+    <div class="ph-title">Sobre Nosotros</div>
+    <div class="ph-sub">[ Contenido pendiente de definir ]</div>
   </div>
 </div>
 
@@ -395,12 +458,88 @@ const CONFIG = {
 };
 
 // ════════════════════════════════════════════
+//  ÁRBOL DE CARPETAS
+// ════════════════════════════════════════════
+var FILE_TREE = {
+  name:"raíz", type:"folder", children:[
+    { name:"Administración", type:"folder", children:[
+      { name:"Personal", type:"folder", children:[
+        { name:"registros_personal_2023.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 4 REQUERIDO]" },
+        { name:"contratos_activos.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 4 REQUERIDO]" }
+      ]},
+      { name:"Presupuestos", type:"folder", children:[
+        { name:"presupuesto_2024.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 3 REQUERIDO]" },
+        { name:"gastos_reservados.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 5 REQUERIDO]" }
+      ]}
+    ]},
+    { name:"Comunicaciones", type:"folder", children:[
+      { name:"Internas", type:"folder", children:[
+        { name:"circular_002_2025.msg", type:"file", content:"CIRCULAR 002/2025\n\nSe recuerda a todos los agentes que el protocolo de comunicación cifrada ORBAYU-C es de uso obligatorio para cualquier transmisión con clasificación superior a CONFIDENCIAL." },
+        { name:"aviso_sistema.msg", type:"file", content:"AVISO DE SISTEMA\n\nMantenimiento programado el próximo martes entre las 02:00 y las 04:00 horas." }
+      ]},
+      { name:"Externas", type:"folder", children:[
+        { name:"[VACÍO]", type:"file", content:"Esta carpeta no contiene archivos activos." }
+      ]}
+    ]},
+    { name:"Operaciones", type:"folder", children:[
+      { name:"Misiones Activas", type:"folder", children:[
+        { name:"MISION_ALFA", type:"folder", children:[
+          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
+        ]},
+        { name:"MISION_BETA", type:"folder", children:[
+          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" },
+          { name:"mapa_zona.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
+        ]}
+      ]},
+      { name:"Archivos", type:"folder", children:[
+        { name:"Histórico", type:"folder", children:[
+          { name:"informe_2018.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" },
+          { name:"informe_2019.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" },
+          { name:"informe_2020.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" }
+        ]},
+        { name:"Pendiente", type:"folder", children:[
+          { name:"nota_interna.dat", type:"file", content:"Pendiente de clasificación. Trasladar a Clasificado una vez revisado por el coordinador." }
+        ]},
+        { name:"Clasificado", type:"folder", children:[
+          { name:"ORBAYU_1", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"ORBAYU_2", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"ORBAYU_3", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"ORBAYU_4", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"ORBAYU_5", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"ORBAYU_6", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          {
+            // ★ CARPETA OBJETIVO — único fichero reproducible
+            name:"ORBAYU_7", type:"folder", children:[
+              {
+                name:"Misión de la Santina.mp3", type:"audio",
+                audioSrc:"https://illanrn.github.io/escapela/img/audio_final.m4a"
+              }
+            ]
+          },
+          { name:"ORBAYU_8", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"ORBAYU_9", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]}
+        ]}
+      ]}
+    ]},
+    { name:"Recursos", type:"folder", children:[
+      { name:"Protocolos", type:"folder", children:[
+        { name:"protocolo_seguridad.pdf", type:"file", content:"PROTOCOLO DE SEGURIDAD ORBAYU v3.2\n\n1. Renovar credenciales cada 90 días.\n2. Acceso a niveles 4 y 5 requiere autenticación biométrica.\n3. Ante brecha de seguridad, contactar con el coordinador de guardia." },
+        { name:"manual_cifrado.pdf", type:"file", content:"MANUAL DE CIFRADO · USO INTERNO\n\nLa matriz de cifrado se actualiza cada semana. Los valores asignados a cada día de la semana son conocidos únicamente por agentes con acceso nivel 2 o superior." }
+      ]},
+      { name:"Plantillas", type:"folder", children:[
+        { name:"plantilla_informe.tpl", type:"file", content:"PLANTILLA ESTÁNDAR — INFORME DE OPERACIÓN\n\nFECHA:\nAGENTE:\nCLASIFICACIÓN:\nRESUMEN:\n\n[...]" }
+      ]}
+    ]}
+  ]
+};
+
+// ════════════════════════════════════════════
 //  ESTADO
 // ════════════════════════════════════════════
-let currentUser = "";
-let cipherDay = "", cipherNum = 0, cipherAnswer = 0;
-let navStack = [FILE_TREE];
-let audioUnlocked = false;  // se activa al terminar el audio
+var currentUser = "";
+var cipherDay = "", cipherNum = 0, cipherAnswer = 0;
+var navStack = [FILE_TREE];
+var audioUnlocked = false;  // se activa al terminar el audio
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -530,12 +669,10 @@ function renderMainButtons() {
 }
 
 function goAreaPrivada() {
-  // Página dummy — definir URL cuando esté lista
-  alert("Área Privada — página pendiente de definir");
+  showScreen('screen-privado');
 }
 function goSobreNosotros() {
-  // Página dummy — definir URL cuando esté lista
-  alert("Sobre Nosotros — página pendiente de definir");
+  showScreen('screen-about');
 }
 
 function showMain() {
@@ -613,6 +750,14 @@ function openFile(item) {
   document.getElementById('file-modal').classList.add('show');
 }
 function closeModal() { document.getElementById('file-modal').classList.remove('show'); }
+
+function closeAudioPlayer() {
+  const audio = document.getElementById('audio-player');
+  audio.pause();
+  document.getElementById('audio-play-btn').textContent = '▶ Reproducir';
+  document.getElementById('audio-status').textContent = 'Haga clic para reproducir';
+  showScreen('screen-docs');
+}
 
 // ── AUDIO PLAYER ──
 function openAudioPlayer(item) {
