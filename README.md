@@ -1,9 +1,9 @@
 <h3>En un lugar de la consejería de educación, alguien, o álguienes, están planeando acciones secretas a la vista de todo el mundo.</h3>
-- Top 10 escapes caseros - illanrn.github.io\/
-- Un escape tontorrón - Ángel\/
-- Very chingón this is - The New York times new roman\
-- Lo hice yo, no puedo opinar. Muy bueno. - Candela\
-- 99% of people won't be able to solve this - TikTok Today\
+- Top 10 escapes caseros - illanrn.github.io<br/>
+- Un escape tontorrón - Ángel<br/>
+- Very chingón this is - The New York times new roman<br/>
+- Lo hice yo, no puedo opinar. Muy bueno. - Candela<br/>
+- 99% of people won't be able to solve this - TikTok Today<br/>
 
 
 <h1>Escapela</h1>
