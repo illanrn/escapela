@@ -5,7 +5,7 @@ Algunas de las mentes más brillantes de la rama educativa de la administración
 Adéntrate en este apasionante Funcionariado-Noir que ya ha cautivado a millones de lectores en el mundo entero. La experiencia de misterio, enigmas y secretos revelación de este 2026. <br/>
 <br/>
 <br/>
-<b>¿Podrás resolver los deberes, completar el enigma, y remontar la nota de Asturias en el informe Pisa?</b>
+<b>¿Podrás resolver los deberes, completar el enigma, y remontar la nota de Asturias en el informe Pisa?</b> <br/>
 - Top 10 escapes caseros - illanrn.github.io<br/>
 - Un escape tontorrón - Ángel<br/>
 - Very chingón this is - The New York times new roman<br/>
