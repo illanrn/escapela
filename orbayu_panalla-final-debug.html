@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ORBAYU · Documentos</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Courier New',Courier,monospace; background:#0a0c10; color:#c8d8e8; min-height:100vh; overflow-x:hidden; }
+    body::before {
+      content:""; position:fixed; inset:0;
+      background:repeating-linear-gradient(0deg,rgba(0,0,0,.10) 0px,rgba(0,0,0,.10) 1px,transparent 1px,transparent 3px);
+      pointer-events:none; z-index:9999;
+    }
+
+    .screen { display:none; }
+    .screen.active { display:flex; }
+
+    /* ── DOCS ── */
+    #screen-docs { flex-direction:column; min-height:100vh; }
+    #docs-topbar {
+      background:rgba(5,15,25,.98); border-bottom:1px solid #1a4060;
+      display:flex; align-items:center; gap:16px; padding:10px 24px;
+    }
+    #docs-topbar .tb-logo { font-size:12px; letter-spacing:5px; color:#00c8ff; }
+    #docs-body {
+      flex:1; display:flex; flex-direction:column;
+      padding:24px; max-width:900px; width:100%; margin:0 auto;
+    }
+    #breadcrumb {
+      font-size:10px; color:#4a7090; letter-spacing:1px;
+      margin-bottom:16px; display:flex; align-items:center; gap:6px; flex-wrap:wrap;
+    }
+    #breadcrumb span { cursor:pointer; }
+    #breadcrumb span:hover { color:#00c8ff; }
+    #breadcrumb .sep { color:#1a4060; cursor:default; }
+    #breadcrumb span.current { color:#c8d8e8; cursor:default; }
+    #file-area {
+      background:rgba(5,15,25,.7); border:1px solid #1a4060;
+      min-height:400px; padding:8px 0;
+    }
+    .file-entry {
+      display:flex; align-items:center; gap:12px;
+      padding:10px 18px; cursor:pointer;
+      border-bottom:1px solid rgba(26,64,96,.3);
+      transition:background .15s; font-size:12px;
+    }
+    .file-entry:last-child { border-bottom:none; }
+    .file-entry:hover { background:rgba(0,200,255,.05); }
+    .file-entry .fe-icon { font-size:16px; width:22px; flex-shrink:0; }
+    .file-entry .fe-name { color:#c8d8e8; flex:1; }
+    .file-entry.folder .fe-name { color:#7ab8e8; }
+    .file-entry.folder:hover .fe-name { color:#00c8ff; }
+    .file-entry .fe-meta { color:#4a7090; font-size:10px; letter-spacing:1px; }
+
+    /* ── AUDIO PLAYER SCREEN ── */
+    #screen-audio {
+      flex-direction:column; align-items:center;
+      justify-content:center; min-height:100vh; padding:20px;
+    }
+    #audio-box {
+      position:relative;
+      background:rgba(5,15,25,.97); border:1px solid #1a4060; border-top:2px solid #00c8ff;
+      padding:36px 40px; width:100%; max-width:480px;
+      box-shadow:0 0 40px rgba(0,200,255,.12); text-align:center;
+    }
+    #audio-close-btn {
+      position:absolute; top:12px; right:14px;
+      background:transparent; border:none; color:#4a7090;
+      font-size:18px; cursor:pointer; font-family:'Courier New',monospace;
+      line-height:1; transition:color .2s;
+    }
+    #audio-close-btn:hover { color:#ff4444; }
+    #audio-box .audio-icon { font-size:40px; margin-bottom:14px; }
+    #audio-box .audio-filename {
+      color:#00c8ff; font-size:13px; letter-spacing:3px; margin-bottom:24px;
+      text-transform:uppercase; word-break:break-all;
+    }
+    #audio-bar-wrap { width:100%; margin-bottom:18px; }
+    #audio-progress-bg {
+      width:100%; height:6px; background:rgba(0,200,255,.15); border-radius:3px;
+      cursor:pointer; position:relative; margin-bottom:8px;
+    }
+    #audio-progress-fill {
+      height:100%; background:#00c8ff; border-radius:3px; width:0%;
+      transition:width .1s linear; pointer-events:none;
+    }
+    #audio-time {
+      display:flex; justify-content:space-between;
+      font-size:10px; color:#4a7090; letter-spacing:1px;
+    }
+    #audio-controls {
+      display:flex; align-items:center; justify-content:center; gap:14px;
+    }
+    #audio-play-btn {
+      background:transparent; border:1px solid #00c8ff; color:#00c8ff;
+      padding:10px 24px; font-family:'Courier New',monospace;
+      font-size:11px; letter-spacing:3px; cursor:pointer;
+      text-transform:uppercase; transition:all .2s;
+    }
+    #audio-play-btn:hover {
+      background:rgba(0,200,255,.1);
+      box-shadow:0 0 15px rgba(0,200,255,.2);
+    }
+    #audio-status {
+      font-size:10px; color:#4a7090; letter-spacing:2px;
+      margin-top:14px; min-height:16px;
+    }
+
+    /* FILE MODAL */
+    #file-modal {
+      display:none; position:fixed; inset:0;
+      background:rgba(0,0,0,.85); z-index:100;
+      align-items:center; justify-content:center; padding:20px;
+    }
+    #file-modal.show { display:flex; }
+    #file-modal-box {
+      background:#0a1420; border:1px solid #00c8ff;
+      padding:32px 36px; max-width:560px; width:100%;
+      box-shadow:0 0 40px rgba(0,200,255,.15);
+    }
+    #file-modal-box h3 {
+      color:#00c8ff; font-size:11px; letter-spacing:3px;
+      text-transform:uppercase; margin-bottom:16px;
+    }
+    #file-modal-content {
+      color:#aac8e4; font-size:12px; line-height:1.8;
+      margin-bottom:20px; white-space:pre-wrap;
+    }
+    #close-modal {
+      border:1px solid #1a4060; background:transparent; color:#4a7090;
+      padding:8px 18px; font-family:'Courier New',monospace;
+      font-size:10px; letter-spacing:2px; cursor:pointer;
+    }
+    #close-modal:hover { border-color:#00c8ff; color:#00c8ff; }
+  </style>
+</head>
+<body>
+
+<!-- ════ SCREEN DOCS ════ -->
+<div id="screen-docs" class="screen active">
+  <div id="docs-topbar">
+    <div class="tb-logo">ORBAYU · DOCUMENTOS</div>
+  </div>
+  <div id="docs-body">
+    <div id="breadcrumb"></div>
+    <div id="file-area"></div>
+  </div>
+</div>
+
+<!-- ════ SCREEN AUDIO ════ -->
+<div id="screen-audio" class="screen">
+  <div id="audio-box">
+    <button id="audio-close-btn" onclick="closeAudioPlayer()" title="Cerrar">✕</button>
+    <div class="audio-icon">🎵</div>
+    <div class="audio-filename" id="audio-filename">—</div>
+    <div id="audio-bar-wrap">
+      <div id="audio-progress-bg">
+        <div id="audio-progress-fill"></div>
+      </div>
+      <div id="audio-time">
+        <span id="audio-current">0:00</span>
+        <span id="audio-duration">--:--</span>
+      </div>
+    </div>
+    <div id="audio-controls">
+      <button id="audio-play-btn" onclick="toggleAudio()">▶ Reproducir</button>
+    </div>
+    <div id="audio-status">Haga clic para reproducir</div>
+    <audio id="audio-player" preload="metadata"></audio>
+  </div>
+</div>
+
+<!-- FILE MODAL -->
+<div id="file-modal">
+  <div id="file-modal-box">
+    <h3 id="file-modal-title">Archivo Clasificado</h3>
+    <div id="file-modal-content"></div>
+    <button id="close-modal" onclick="closeModal()">[ Cerrar ]</button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+//  ÁRBOL DE CARPETAS
+// ════════════════════════════════════════════
+var FILE_TREE = {
+  name:"raíz", type:"folder", children:[
+
+    { name:"Facturas y gastos", type:"folder", children:[
+      { name:"Internas", type:"folder", children:[
+        { name:"circular_002_2025.msg", type:"file", content:"CIRCULAR 002/2025\n\nSe recuerda a todos los agentes que el protocolo de comunicación cifrada ORBAYU-C es de uso obligatorio para cualquier transmisión con clasificación superior a CONFIDENCIAL." },
+        { name:"aviso_sistema.msg", type:"file", content:"AVISO DE SISTEMA\n\nMantenimiento programado el próximo martes entre las 02:00 y las 04:00 horas." }
+      ]},
+      { name:"Externas", type:"folder", children:[
+        { name:"[VACÍO]", type:"file", content:"Esta carpeta no contiene archivos activos." }
+      ]}
+    ]},
+
+    { name:"Documentación de Misiones", type:"folder", children:[
+      { name:"A_Publico", type:"folder", children:[
+        { name:"Sibilino Domínguez", type:"folder", children:[
+          { name:"informe_2018.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" },
+          { name:"informe_2019.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" },
+          { name:"informe_2020.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" }
+        ]},
+        { name:"Rex Pelagius", type:"folder", children:[
+          { name:"nota_interna.dat", type:"file", content:"Pendiente de clasificación. Trasladar a Clasificado una vez revisado por el coordinador." }
+        ]},
+        { name:"La Santina", type:"folder", children:[
+          { name:"123231", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"133212", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"213321", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"221132", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"232212", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"232121", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          {
+            name:"233221", type:"folder", children:[
+              {
+                name:"20260516_Briefing Misión de La Santina.mp3", type:"audio",
+                audioSrc:"https://illanrn.github.io/escapela/img/audio-final.mp4"
+              }
+            ]
+          },
+          { name:"311201", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+          { name:"332211", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]}
+        ]}
+      ]},
+      { name:"B_Reservado", type:"folder", children:[
+        { name:"MISION_KITCHEN", type:"folder", children:[
+          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
+        ]},
+        { name:"MISION_EXCURSION_POR_EL_CAMPO", type:"folder", children:[
+          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" },
+          { name:"mapa_zona.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
+        ]}
+      ]},
+      { name:"C_Confidencial", type:"folder", children:[
+        { name:"MISION_CHURROS_SAN_SILVESTRE", type:"folder", children:[
+          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
+        ]},
+        { name:"MISION_TORTILLA_FRANCESA", type:"folder", children:[
+          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" },
+          { name:"mapa_zona.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
+        ]}
+      ]},
+      { name:"D_Secreto", type:"folder", children:[
+        { name:"MISION_ALFAGUARA", type:"folder", children:[
+          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
+        ]},
+        { name:"MISION_ALTAYA", type:"folder", children:[
+          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" },
+          { name:"mapa_zona.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
+        ]}
+      ]}
+    ]},
+
+    { name:"Recursos", type:"folder", children:[
+      { name:"Plantilla", type:"folder", children:[
+        { name:"protocolo_seguridad.pdf", type:"file", content:"PROTOCOLO DE SEGURIDAD ORBAYU v3.2\n\n1. Renovar credenciales cada 90 días.\n2. Acceso a niveles 4 y 5 requiere autenticación biométrica.\n3. Ante brecha de seguridad, contactar con el coordinador de guardia." },
+        { name:"manual_cifrado.pdf", type:"file", content:"MANUAL DE CIFRADO · USO INTERNO\n\nLa matriz de cifrado se actualiza cada semana. Los valores asignados a cada día de la semana son conocidos únicamente por agentes con acceso nivel 2 o superior." }
+      ]},
+      { name:"Asignaciones", type:"folder", children:[
+        { name:"plantilla_informe.tpl", type:"file", content:"PLANTILLA ESTÁNDAR — INFORME DE OPERACIÓN\n\nFECHA:\nAGENTE:\nCLASIFICACIÓN:\nRESUMEN:\n\n[...]" }
+      ]}
+    ]},
+
+    { name:"Miscelánea", type:"folder", children:[
+      { name:"Personal", type:"folder", children:[
+        { name:"registros_personal_2023.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 4 REQUERIDO]" },
+        { name:"contratos_activos.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 4 REQUERIDO]" }
+      ]},
+      { name:"Presupuestos", type:"folder", children:[
+        { name:"presupuesto_2024.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 3 REQUERIDO]" },
+        { name:"gastos_reservados.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 5 REQUERIDO]" }
+      ]}
+    ]}
+  ]
+};
+
+// ════════════════════════════════════════════
+//  ESTADO
+// ════════════════════════════════════════════
+var navStack = [FILE_TREE];
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── DOCS ──
+function renderFileArea() {
+  const current = navStack[navStack.length - 1];
+  const bc = document.getElementById('breadcrumb');
+  bc.innerHTML = "";
+  navStack.forEach((node, i) => {
+    const sp = document.createElement('span');
+    sp.textContent = i === 0 ? "RAÍZ" : node.name.toUpperCase();
+    if (i < navStack.length - 1) sp.onclick = () => { navStack = navStack.slice(0, i + 1); renderFileArea(); };
+    else sp.className = 'current';
+    bc.appendChild(sp);
+    if (i < navStack.length - 1) {
+      const sep = document.createElement('span');
+      sep.className = 'sep'; sep.textContent = ' › '; bc.appendChild(sep);
+    }
+  });
+
+  const area = document.getElementById('file-area');
+  area.innerHTML = "";
+
+  if (navStack.length > 1) {
+    const up = document.createElement('div');
+    up.className = 'file-entry folder';
+    up.innerHTML = '<span class="fe-icon">📂</span><span class="fe-name">.. (subir nivel)</span>';
+    up.onclick = () => { navStack.pop(); renderFileArea(); };
+    area.appendChild(up);
+  }
+
+  (current.children || []).forEach(item => {
+    const row = document.createElement('div');
+    row.className = 'file-entry ' + (item.type === 'folder' ? 'folder' : 'file');
+    const icon = item.type === 'folder' ? '📁' : (item.type === 'audio' ? '🎵' : '📄');
+    const meta = item.type === 'folder'
+      ? `${(item.children || []).length} elemento(s)`
+      : (item.type === 'audio' ? 'audio' : 'archivo');
+    row.innerHTML = `<span class="fe-icon">${icon}</span><span class="fe-name">${item.name}</span><span class="fe-meta">${meta}</span>`;
+    if (item.type === 'folder') row.onclick = () => { navStack.push(item); renderFileArea(); };
+    else row.onclick = () => openFile(item);
+    area.appendChild(row);
+  });
+
+  if (!current.children || current.children.length === 0) {
+    const empty = document.createElement('div');
+    empty.style.cssText = "padding:24px;color:#4a7090;font-size:11px;letter-spacing:2px;text-align:center;";
+    empty.textContent = "[ CARPETA VACÍA ]";
+    area.appendChild(empty);
+  }
+}
+
+function openFile(item) {
+  if (item.type === 'audio') {
+    openAudioPlayer(item);
+    return;
+  }
+  document.getElementById('file-modal-title').textContent = item.name.toUpperCase();
+  document.getElementById('file-modal-content').textContent = item.content || "[Sin contenido]";
+  document.getElementById('file-modal').classList.add('show');
+}
+function closeModal() { document.getElementById('file-modal').classList.remove('show'); }
+
+// ── AUDIO PLAYER ──
+function openAudioPlayer(item) {
+  document.getElementById('audio-filename').textContent = item.name;
+  const audio = document.getElementById('audio-player');
+  audio.src = item.audioSrc;
+  audio.load();
+  document.getElementById('audio-play-btn').textContent = '▶ Reproducir';
+  document.getElementById('audio-status').textContent = 'Haga clic para reproducir';
+  document.getElementById('audio-progress-fill').style.width = '0%';
+  document.getElementById('audio-current').textContent = '0:00';
+  document.getElementById('audio-duration').textContent = '--:--';
+  showScreen('screen-audio');
+}
+
+function closeAudioPlayer() {
+  const audio = document.getElementById('audio-player');
+  audio.pause();
+  document.getElementById('audio-play-btn').textContent = '▶ Reproducir';
+  document.getElementById('audio-status').textContent = 'Haga clic para reproducir';
+  showScreen('screen-docs');
+}
+
+function toggleAudio() {
+  const audio = document.getElementById('audio-player');
+  const btn = document.getElementById('audio-play-btn');
+  if (audio.paused) {
+    audio.play();
+    btn.textContent = '⏸ Pausar';
+    document.getElementById('audio-status').textContent = 'Reproduciendo…';
+  } else {
+    audio.pause();
+    btn.textContent = '▶ Reproducir';
+    document.getElementById('audio-status').textContent = 'En pausa';
+  }
+}
+
+function formatTime(s) {
+  if (isNaN(s)) return '--:--';
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + (sec < 10 ? '0' : '') + sec;
+}
+
+(function setupAudio() {
+  const audio = document.getElementById('audio-player');
+  const fill  = document.getElementById('audio-progress-fill');
+  const bg    = document.getElementById('audio-progress-bg');
+  const cur   = document.getElementById('audio-current');
+  const dur   = document.getElementById('audio-duration');
+
+  audio.addEventListener('loadedmetadata', () => { dur.textContent = formatTime(audio.duration); });
+  audio.addEventListener('timeupdate', () => {
+    if (audio.duration) {
+      fill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+      cur.textContent = formatTime(audio.currentTime);
+    }
+  });
+  audio.addEventListener('ended', () => {
+    document.getElementById('audio-play-btn').textContent = '▶ Reproducir';
+    document.getElementById('audio-status').textContent = '✓ Reproducción completada';
+    fill.style.width = '100%';
+  });
+  bg.addEventListener('click', e => {
+    if (!audio.duration) return;
+    const rect = bg.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+  });
+})();
+
+// Arrancar en la pantalla de documentos
+navStack = [FILE_TREE];
+renderFileArea();
+showScreen('screen-docs');
+</script>
+</body>
+</html>
