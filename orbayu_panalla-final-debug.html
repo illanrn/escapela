@@ -186,34 +186,7 @@
 // ════════════════════════════════════════════
 var FILE_TREE = {
   name:"raíz", type:"folder", children:[
-
-    { name:"Facturas y gastos", type:"folder", children:[
-      { name:"Internas", type:"folder", children:[
-        { name:"circular_002_2025.msg", type:"file", content:"CIRCULAR 002/2025\n\nSe recuerda a todos los agentes que el protocolo de comunicación cifrada ORBAYU-C es de uso obligatorio para cualquier transmisión con clasificación superior a CONFIDENCIAL." },
-        { name:"aviso_sistema.msg", type:"file", content:"AVISO DE SISTEMA\n\nMantenimiento programado el próximo martes entre las 02:00 y las 04:00 horas." }
-      ]},
-      { name:"Externas", type:"folder", children:[
-        { name:"[VACÍO]", type:"file", content:"Esta carpeta no contiene archivos activos." }
-      ]}
-    ]},
-
-    { name:"Documentación de Misiones", type:"folder", children:[
-      { name:"A_Publico", type:"folder", children:[
-        { name:"Sibilino Domínguez", type:"folder", children:[
-          { name:"informe_2018.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" },
-          { name:"informe_2019.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" },
-          { name:"informe_2020.arc", type:"file", content:"[ARCHIVO · CONSULTAR EN SEDE CENTRAL]" }
-        ]},
-        { name:"Rex Pelagius", type:"folder", children:[
-          { name:"nota_interna.dat", type:"file", content:"Pendiente de clasificación. Trasladar a Clasificado una vez revisado por el coordinador." }
-        ]},
-        { name:"La Santina", type:"folder", children:[
-          { name:"123231", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"133212", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"213321", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"221132", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"232212", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"232121", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
+ 
           {
             name:"233221", type:"folder", children:[
               {
@@ -221,63 +194,11 @@ var FILE_TREE = {
                 audioSrc:"https://illanrn.github.io/escapela/img/audio-final.mp4"
               }
             ]
-          },
-          { name:"311201", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]},
-          { name:"332211", type:"folder", children:[{ name:"registro.dat", type:"file", content:"[VACÍO]" }]}
-        ]}
-      ]},
-      { name:"B_Reservado", type:"folder", children:[
-        { name:"MISION_KITCHEN", type:"folder", children:[
-          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
-        ]},
-        { name:"MISION_EXCURSION_POR_EL_CAMPO", type:"folder", children:[
-          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" },
-          { name:"mapa_zona.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
-        ]}
-      ]},
-      { name:"C_Confidencial", type:"folder", children:[
-        { name:"MISION_CHURROS_SAN_SILVESTRE", type:"folder", children:[
-          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
-        ]},
-        { name:"MISION_TORTILLA_FRANCESA", type:"folder", children:[
-          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" },
-          { name:"mapa_zona.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
-        ]}
-      ]},
-      { name:"D_Secreto", type:"folder", children:[
-        { name:"MISION_ALFAGUARA", type:"folder", children:[
-          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
-        ]},
-        { name:"MISION_ALTAYA", type:"folder", children:[
-          { name:"briefing.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" },
-          { name:"mapa_zona.dat", type:"file", content:"[ACCESO DENEGADO · CLASIFICACIÓN: SECRETO]" }
-        ]}
-      ]}
-    ]},
-
-    { name:"Recursos", type:"folder", children:[
-      { name:"Plantilla", type:"folder", children:[
-        { name:"protocolo_seguridad.pdf", type:"file", content:"PROTOCOLO DE SEGURIDAD ORBAYU v3.2\n\n1. Renovar credenciales cada 90 días.\n2. Acceso a niveles 4 y 5 requiere autenticación biométrica.\n3. Ante brecha de seguridad, contactar con el coordinador de guardia." },
-        { name:"manual_cifrado.pdf", type:"file", content:"MANUAL DE CIFRADO · USO INTERNO\n\nLa matriz de cifrado se actualiza cada semana. Los valores asignados a cada día de la semana son conocidos únicamente por agentes con acceso nivel 2 o superior." }
-      ]},
-      { name:"Asignaciones", type:"folder", children:[
-        { name:"plantilla_informe.tpl", type:"file", content:"PLANTILLA ESTÁNDAR — INFORME DE OPERACIÓN\n\nFECHA:\nAGENTE:\nCLASIFICACIÓN:\nRESUMEN:\n\n[...]" }
-      ]}
-    ]},
-
-    { name:"Miscelánea", type:"folder", children:[
-      { name:"Personal", type:"folder", children:[
-        { name:"registros_personal_2023.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 4 REQUERIDO]" },
-        { name:"contratos_activos.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 4 REQUERIDO]" }
-      ]},
-      { name:"Presupuestos", type:"folder", children:[
-        { name:"presupuesto_2024.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 3 REQUERIDO]" },
-        { name:"gastos_reservados.dat", type:"file", content:"[ACCESO DENEGADO · NIVEL 5 REQUERIDO]" }
-      ]}
-    ]}
-  ]
+          } 
+        ] 
+       
 };
-
+ 
 // ════════════════════════════════════════════
 //  ESTADO
 // ════════════════════════════════════════════
