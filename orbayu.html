@@ -592,7 +592,7 @@ function doLogin() {
   warning.classList.remove('show');
   iUser.classList.remove('error'); iPass.classList.remove('error');
 
-  if (user !== CONFIG.VALID_USER) {
+  if (user.toLowerCase() !== CONFIG.VALID_USER.toLowerCase()) {
     warning.textContent = "⚠ Usuario desconocido.";
     warning.classList.add('show');
     iUser.classList.add('error');
